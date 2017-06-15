@@ -4,7 +4,11 @@ import {Link} from 'react-router';
 class HomePage extends React.Component{
     render(){
         return(
-            'HomePage works'
+            <div className="jumbotron">
+                <h1>Home Page</h1>
+                <Link to="about" className="btn btn-primary">Learn More
+                </Link>
+            </div>
         );
     }
 };
