@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import * as courseActions from '../../actions/courseActions';
 
 class CoursesPage extends React.Component {
     constructor(props, context) {
@@ -17,13 +19,18 @@ class CoursesPage extends React.Component {
     }
 
     onClickSave() {
-        alert(`saving ${this.state.course.title}`);
+        // alert(`saving ${this.state.course.title}`);
+        this.props.dispatch(courseActions.createCourse(this.state.course));
+    }
+    courseRaw(course, index) {
+        return <div key={index}>{course.title}</div>;
     }
 
     render() {
         return (
             <div className="jumbotron">
                 <h1>Courses</h1>
+                {this.props.courses.map(this.courseRaw)}
                 <h2>Add Course</h2>
                 <input
                     type="text"
@@ -38,5 +45,21 @@ class CoursesPage extends React.Component {
         );
     }
 }
+// const connectedAndProps = connect(mapStateToProps, mapDispatchToProps);
+// export default connectStateAndProps(CoursesPage);
 
-export default CoursesPage;
+//Validation
+CoursesPage.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    courses: PropTypes.array.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+    return {
+        //3:29
+        courses: state.courses
+    };
+}
+// mapDispatchToProps is optional 4:20
+// export default connect (mapStateToProps, mapDispatchToProps)(CoursesPage);
+export default connect(mapStateToProps)(CoursesPage);
